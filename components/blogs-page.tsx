@@ -7,18 +7,17 @@ import { Button } from "@/components/ui/button";
 import { blogPosts } from "@/data/blog-posts";
 import type { BlogPost } from "@/types/blog";
 import ImageGallery from "@/components/image-gallery";
+import CodeBlock from "@/components/code-block";
 
 export default function BlogsPage() {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
-
-  // Simulate scroll to top when the component mounts or post changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [selectedPost]);
 
   return (
     <div className="w-full py-16 px-4 overflow-y-auto max-h-screen">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -59,7 +58,7 @@ function BlogList({ posts, onSelectPost }: { posts: BlogPost[]; onSelectPost: (p
           className="bg-black/60 backdrop-blur-md border border-blue-500/30 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(0,200,255,0.2)] hover:shadow-[0_0_25px_rgba(0,200,255,0.3)] transition-all duration-300 cursor-pointer group"
           onClick={() => onSelectPost(post)}
         >
-          <div className="relative h-48 overflow-hidden">
+          <div className="relative h-60 overflow-hidden">
             <img
               src={post.featuredImage || "/placeholder.svg"}
               alt={post.title}
@@ -100,25 +99,84 @@ function BlogList({ posts, onSelectPost }: { posts: BlogPost[]; onSelectPost: (p
   );
 }
 
-// Helper function to process bold text
-const processBoldText = (text: string) => {
-  return text.replace(/\*\*(.*?)\*\*/g, (match, content) => {
-    return `<span class="text-blue-300 font-bold">${content}</span>`;
-  });
-};
-
 function BlogPostDetail({ post }: { post: BlogPost }) {
-  // Process the entire content first to handle all bold text
   const processContent = (content: string) => {
-    // First, process all bold text throughout the entire content
     return content.replace(/\*\*(.*?)\*\*/g, '<span class="text-blue-300 font-bold">$1</span>');
   };
-
-  // Process the entire content
   const processedContent = processContent(post.content);
-
-  // Prepare gallery images
   const galleryImages = post.gallery || [post.featuredImage];
+  const renderContent = () => {
+    const blocks = processedContent.split("```");
+
+    return blocks.map((block, index) => {
+      if (index % 2 === 0) {
+        return renderTextBlock(block, index);
+      } else {
+        const firstLineBreak = block.indexOf("\n");
+        const language = firstLineBreak > 0 ? block.substring(0, firstLineBreak).trim() : "typescript";
+        const code = firstLineBreak > 0 ? block.substring(firstLineBreak + 1) : block;
+
+        return <CodeBlock key={index} code={code} language={language} />;
+      }
+    });
+  };
+
+  const renderTextBlock = (block: string, key: number) => {
+    const paragraphs = block.split("\n\n").filter((p) => p.trim() !== "");
+
+    return (
+      <div key={key} className="space-y-6">
+        {paragraphs.map((paragraph, idx) => {
+          // Handle headings
+          if (paragraph.trim().startsWith("## ")) {
+            return (
+              <h2 key={idx} className="text-2xl font-bold text-blue-400 mt-10 mb-4">
+                {paragraph.trim().replace("## ", "")}
+              </h2>
+            );
+          }
+          if (paragraph.trim().startsWith("### ")) {
+            return (
+              <h3 key={idx} className="text-xl font-bold text-blue-300 mt-8 mb-3">
+                {paragraph.trim().replace("### ", "")}
+              </h3>
+            );
+          }
+          if (paragraph.trim() === "---") {
+            return <hr key={idx} className="my-8 border-blue-500/30" />;
+          }
+          if (paragraph.includes("\n- ")) {
+            const listTitle = paragraph.split("\n")[0];
+            const items = paragraph.split("\n- ").slice(1);
+
+            return (
+              <div key={idx} className="my-6">
+                {listTitle && listTitle !== "-" && (
+                  <p className="text-lg mb-2" dangerouslySetInnerHTML={{ __html: listTitle }} />
+                )}
+                <ul className="list-disc pl-6 space-y-2">
+                  {items.map((item, itemIdx) => (
+                    <li
+                      key={itemIdx}
+                      className="text-lg text-gray-300 leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: item.trim() }}
+                    />
+                  ))}
+                </ul>
+              </div>
+            );
+          }
+          const processedParagraph = paragraph.replace(
+            /`([^`]+)`/g,
+            '<code class="bg-gray-800 text-blue-300 px-1 py-0.5 rounded font-mono text-sm">$1</code>'
+          );
+          return (
+            <p key={idx} className="text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: processedParagraph }} />
+          );
+        })}
+      </div>
+    );
+  };
 
   return (
     <motion.article
@@ -127,7 +185,6 @@ function BlogPostDetail({ post }: { post: BlogPost }) {
       transition={{ duration: 0.5 }}
       className="bg-black/60 backdrop-blur-md border border-blue-500/30 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(0,200,255,0.2)]"
     >
-      {/* Image Gallery */}
       <ImageGallery images={galleryImages} alt={post.title} />
 
       <div className="p-6 md:p-8">
@@ -154,54 +211,7 @@ function BlogPostDetail({ post }: { post: BlogPost }) {
 
         <p className="text-gray-300 text-xl leading-relaxed mb-8">{post.description}</p>
 
-        <div className="blog-content text-gray-200 space-y-6 mb-12">
-          {processedContent
-            .trim()
-            .split("\n\n")
-            .map((block, idx) => {
-              // Handle headings
-              if (block.trim().startsWith("## ")) {
-                return (
-                  <h2 key={idx} className="text-2xl font-bold text-blue-400 mt-10 mb-4">
-                    {block.trim().replace("## ", "")}
-                  </h2>
-                );
-              }
-
-              // Handle subheadings
-              if (block.trim().startsWith("### ")) {
-                return (
-                  <h3 key={idx} className="text-xl font-bold text-blue-300 mt-8 mb-3">
-                    {block.trim().replace("### ", "")}
-                  </h3>
-                );
-              }
-
-              // Handle lists
-              if (block.trim().includes("\n- ")) {
-                const listTitle = block.split("\n")[0];
-                const items = block.split("\n- ").slice(1);
-
-                return (
-                  <div key={idx} className="my-6">
-                    {listTitle && <p className="text-lg mb-2" dangerouslySetInnerHTML={{ __html: listTitle }} />}
-                    <ul className="list-disc pl-6 space-y-2">
-                      {items.map((item, itemIdx) => (
-                        <li
-                          key={itemIdx}
-                          className="text-lg text-gray-300 leading-relaxed"
-                          dangerouslySetInnerHTML={{ __html: item.trim() }}
-                        />
-                      ))}
-                    </ul>
-                  </div>
-                );
-              }
-
-              // Regular paragraphs with HTML already processed
-              return <p key={idx} className="text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: block }} />;
-            })}
-        </div>
+        <div className="blog-content text-gray-200 space-y-6 mb-12">{renderContent()}</div>
 
         {/* The STANDBOT Method Steps */}
         {post.steps && post.steps.length > 0 && (
@@ -254,8 +264,6 @@ function StandbotCard({ step, index }: { step: any; index: number }) {
           />
         </div>
       )}
-
-      {/* Decorative elements */}
       <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-blue-500/50"></div>
       <div className="absolute bottom-2 left-2 w-2 h-2 border-b border-l border-blue-500/50"></div>
     </div>

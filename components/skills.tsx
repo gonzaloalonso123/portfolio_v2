@@ -7,11 +7,15 @@ export function SkillsGalaxy({ languages, frontend, backend, tools }) {
         Technology Constellation
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-        <SkillCluster title="Programming Languages" skills={languages} color="from-purple-500 to-pink-500" />
-        <SkillCluster title="Frontend Technologies" skills={frontend} color="from-cyan-500 to-blue-500" />
-        <SkillCluster title="Backend Technologies" skills={backend} color="from-green-500 to-teal-500" />
-        <SkillCluster title="Tools & Utilities" skills={tools} color="from-orange-500 to-red-500" />
+      <div className="flex flex-col xl:flex-row gap-3 w-full">
+        <div className="flex flex-col gap-3 w-full">
+          <SkillCluster title="Programming Languages" skills={languages} color="from-purple-500 to-pink-500" />
+          <SkillCluster title="Backend Technologies" skills={backend} color="from-green-500 to-teal-500" />
+        </div>
+        <div className="flex flex-col gap-3 w-full">
+          <SkillCluster title="Frontend Technologies" skills={frontend} color="from-cyan-500 to-blue-500" />
+          <SkillCluster title="Tools & Utilities" skills={tools} color="from-orange-500 to-red-500" />
+        </div>
       </div>
     </div>
   );

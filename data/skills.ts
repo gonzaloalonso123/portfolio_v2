@@ -110,7 +110,7 @@ export const tools = [
   },
   {
     name: "AI",
-    image: "/tech/openai.png",
+    image: "/tech/ia.png",
   },
   {
     name: "VS Code",

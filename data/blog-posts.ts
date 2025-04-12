@@ -7,20 +7,14 @@ export const blogPosts: BlogPost[] = [
     date: "April 10, 2025",
     author: "Gonzalo Alonso",
     description: "A practical, quality-first approach to developing websites and web applications with the aid of AI.",
-    featuredImage: "/abstract-blue-network.png",
-    gallery: [
-      "/symbiotic-code.png",
-      "/code-nexus.png",
-      "/cosmic-code.png",
-      "/standbot/collaborate.png",
-      "/standbot/review.png",
-    ],
+    featuredImage: "/blogs/2.webp",
+    gallery: ["/blogs/2.webp"],
     tags: ["AI", "Development", "Methodology", "Productivity"],
     content: `Artificial intelligence has arrived, and it has changed the world forever. Rather than being a single technology with strict boundaries, AI is a vast and dynamic field—one that demands experimentation, creativity, and a thoughtful approach to truly unlock its potential.
 
 Despite its power, AI can often be unpredictable. Getting the right output might require multiple prompts, a shift in perspective, or even an entirely different workflow. That's why using AI effectively—especially in the context of software development—requires more than just knowing the tools. It requires a system.
 
-Enter the STANDBOT Method: a practical, quality-first approach to developing websites and web applications with the aid of AI. This method aims to establish a repeatable, efficient workflow that leverages the speed and breadth of AI without compromising on code quality.
+For this reason, I am have been giving a lot of thought to the implementation of a reliable system and crafted the STANDBOT Method: a practical, quality-first approach to developing websites and web applications with the aid of AI. This method aims to establish a repeatable, efficient workflow that leverages the speed and breadth of AI without compromising on code quality.
 
 ## Why the STANDBOT Method?
 
@@ -79,9 +73,193 @@ To make the most of AI, standardizing your toolset is crucial. When you use tool
 
 This stack is both powerful and AI-friendly. Tools like Next.js and Supabase provide excellent starter templates, enabling you to get up and running fast. You can implement authentication and define your database in a single day, freeing up time to focus on the core functionality of your app.
 
+
 ## Database-First Development
 
 A cornerstone of the STANDBOT Method is starting with the data layer. Once your database schema is defined, everything else—APIs, components, and UI—can be built around it. It provides a solid foundation and helps clarify your application's structure from day one.
+
+## A Practical Workflow: From Idea to Production with AI
+
+Once you've embraced the STANDBOT philosophy, you can begin applying it through a concrete, repeatable workflow. Below is a step-by-step guide to building AI-powered web apps using tools like Supabase, Next.js, and Vercel’s v0. This method is designed to reduce cognitive load and ensure consistent, quality output.
+
+### 1. Start with a Project Definition
+
+Write a clear, concise project definition. This document should answer a single question: *What are you building?* It becomes your source of truth and will serve as the input for your database design.
+
+---
+
+### 2. Generate a Database Schema with AI
+
+Use your preferred LLM (e.g., GPT-4, Claude, Grok-3) and feed it this prompt:
+
+\`\`\`
+Based on the following document, generate a PostgreSQL database schema compatible with Supabase. It should contain the tables needed to implement the described functionality.
+
+[Your project description goes here]
+\`\`\`
+
+---
+
+### 3. Visualize Your Schema
+
+Create 2–4 different schema versions using different prompts or models. Then, import them into [DrawSQL](https://drawsql.app):
+
+> New Diagram → PostgreSQL → File → Import → PostgreSQL DDL
+
+Compare the diagrams visually and choose the best one. Supabase allows you to edit later, so just focus on starting with something solid.
+
+---
+
+### 4. Deploy Your Schema in Supabase
+
+Create a Supabase project and paste your selected schema into the SQL editor. Your backend is now live and queryable.
+
+---
+
+### 5. Scaffold the Frontend with Supabase Template
+
+Use the official Supabase + Next.js template to scaffold your app:
+
+\`\`\`bash
+npx create-next-app -e with-supabase
+\`\`\`
+
+Follow Supabase’s [Next.js quickstart](https://supabase.com/docs/guides/getting-started/quickstarts/nextjs) to configure your API keys. You’ll have cookie-based auth and email verification out of the box.
+
+---
+
+### 6. Type Your Supabase Schema
+
+Add strong typing by generating types:
+
+\`\`\`bash
+supabase login
+supabase init
+supabase link
+supabase gen types typescript --linked --schema=public > utils/database.types.ts
+\`\`\`
+
+Then wire up typed clients for server and browser contexts using Supabase’s SSR utilities. This enables fully typed access to your database on both client and server.
+
+---
+
+### 7. Generate a Service + React Query Layer with AI
+
+Prompt your AI tool (ideally v0 by Vercel) with:
+
+\`\`\`
+This is my database definition:
+/utils/database.types.ts
+
+Please generate:
+- A service layer with basic CRUD operations
+- A set of React Query hooks for each table
+- A manifest of generated functions for future reference
+\`\`\`
+
+Use the following structure in your services and queries:
+
+**Example - Service Layer**
+
+\`\`\`ts
+// utils/supabase/services/auditService.ts
+export const auditService = {
+  getById: async (supabase, id) => {
+    const { data, error } = await supabase.from("audit_logs").select("*").eq("log_id", id).single();
+    if (error) throw error;
+    return data;
+  },
+  ...
+};
+\`\`\`
+
+**Example - React Query Hook**
+
+\`\`\`ts
+// hooks/queries/useAuditLog.ts
+export const useAuditLog = (logId) => {
+  const supabase = useSupabaseBrowser();
+  return useQuery({
+    queryKey: ["audit", logId],
+    queryFn: () => auditService.getById(supabase, logId),
+    enabled: !!logId,
+  });
+};
+\`\`\`
+
+---
+
+### 8. Generate a Landing Page with v0
+
+Ask v0 to generate a landing page:
+
+\`\`\`
+Create a landing page for my project using:
+- Color Palette: #1E293B, #4F46E5, #38BDF8
+- Fonts: Inter and DM Serif Display
+- Style: Clean, modern, trustworthy
+\`\`\`
+
+Iterate until the design feels right.
+
+---
+
+### 9. Create a Brand Book
+
+Once the landing page looks great, continue in the same v0 thread:
+
+\`\`\`
+Now, create a brand book for this product. Use the same fonts, palette, and tone as the landing page. Include logo usage, color guidelines, typography, and layout principles.
+\`\`\`
+
+This helps ensure brand consistency across your app.
+
+---
+
+### 10. Generate the Full Application
+
+Use this prompt:
+
+\`\`\`
+Build my application. Here's a manifest of my API/data access layer: [insert manifest].
+\`\`\`
+
+Let v0 generate the UI pages and components. Again, don’t aim for perfection—aim for a strong starting point.
+
+---
+
+### 11. Integrate Into Your Project
+
+Download the generated code. Then:
+
+1. Copy 'tailwind.config.js' and global styles.
+2. Start by pasting the layout file into your codebase.
+3. Refactor layout into smaller components.
+4. Create a refactored vs. unrefactored version to guide AI on how to split future files.
+
+Add a comment block like this:
+
+\`\`\`ts
+// MANIFEST:
+// Exported name: Layout (props) - Renders a responsive UI with sidebar navigation and header.
+\`\`\`
+
+Use this structure to slowly incorporate AI-generated code into your real application, component by component, with intention and care.
+
+---
+
+### 12. Finalize and Refine
+
+Once the scaffolding is in place, it's your turn. You now have:
+
+- A fully typed database
+- A complete API/query layer
+- A styled and branded frontend
+- A reusable component structure
+
+From here, develop like you normally would: test, refactor, and build. AI has handled the boilerplate—now it’s time to add your magic.
+
+---
 
 ## Final Thoughts
 
@@ -90,50 +268,6 @@ The STANDBOT Method is not just about building faster—it's about building smar
 AI is a tool with infinite potential. But like any tool, its effectiveness depends on how you use it. With the right system in place, you can consistently build high-quality software in record time.
 
 This is my system. It works for me. And maybe—with some tweaking—it can work for you too.`,
-    steps: [
-      {
-        title: "Define the Problem",
-        content:
-          "Start by clearly articulating what you're trying to solve. Be specific about requirements, constraints, and expected outcomes. A well-defined problem statement guides the AI to generate more relevant and accurate solutions.",
-        icon: "🎯",
-        images: ["/standbot/define-problem.png"],
-      },
-      {
-        title: "Break Down the Task",
-        content:
-          "Divide the problem into smaller, manageable components that can be addressed individually. This modular approach makes complex problems more tractable and helps AI focus on specific aspects of the solution.",
-        icon: "🧩",
-        images: ["/standbot/break-down.png"],
-      },
-      {
-        title: "Collaborate with AI",
-        content:
-          "Use AI as a pair programmer. Provide context, ask specific questions, and iterate on solutions. The key is to guide the AI with clear instructions while remaining open to its suggestions and insights.",
-        icon: "🤖",
-        images: ["/standbot/collaborate.png"],
-      },
-      {
-        title: "Review & Refine",
-        content:
-          "Critically evaluate AI suggestions. Modify, optimize, and ensure they meet your standards. This step is crucial for maintaining code quality and ensuring the solution aligns with your overall architecture.",
-        icon: "🔍",
-        images: ["/standbot/review.png"],
-      },
-      {
-        title: "Integrate & Test",
-        content:
-          "Combine components, test thoroughly, and validate against the original requirements. This step ensures that the individual pieces work together seamlessly and that the solution addresses the initial problem statement.",
-        icon: "🧪",
-        images: ["/standbot/integrate.png"],
-      },
-      {
-        title: "Document & Share",
-        content:
-          "Document your process and insights. Share knowledge to help others leverage AI effectively. This step not only helps your future self but also contributes to the broader community's understanding of AI-assisted development.",
-        icon: "📝",
-        images: ["/standbot/document.png"],
-      },
-    ],
   },
   {
     id: "future-of-ai-development",
@@ -142,13 +276,8 @@ This is my system. It works for me. And maybe—with some tweaking—it can work
     author: "Gonzalo Alonso",
     description:
       "Exploring how artificial intelligence will transform the software development landscape in the coming years.",
-    featuredImage: "/abstract-purple-data.png",
-    gallery: [
-      "/cosmic-code-forge.png",
-      "/holographic-coder.png",
-      "/abstract-blue-network.png",
-      "/AI-Assisted-Coding.png",
-    ],
+    featuredImage: "/blogs/1.webp",
+    gallery: ["/blogs/1.webp"],
     tags: ["AI", "Future Tech", "Software Development", "Trends"],
     content: `Artificial intelligence is rapidly transforming the software development landscape. As we look toward the future, it's clear that AI will continue to evolve and reshape how we build, test, and deploy software.
 

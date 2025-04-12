@@ -1,96 +1,21 @@
-"use client"
-import { motion, AnimatePresence } from "framer-motion"
-import { Calendar, Lightbulb, Sparkles } from "lucide-react"
+"use client";
+import { motion, AnimatePresence } from "framer-motion";
+import { Calendar, Lightbulb, Sparkles } from "lucide-react";
+import { timelineData } from "@/data/timeline-data";
 
-// Timeline entry type
-interface TimelineEntry {
-  date: string
-  title: string
-  description: string
-  icon: string // "calendar", "lightbulb", "sparkles"
-  color: string
-}
-
-// Sample timeline data
-const timelineData: TimelineEntry[] = [
-  {
-    date: "2018",
-    title: "Beginning of the Journey",
-    description:
-      "Started my journey in web development, learning the fundamentals of HTML, CSS, and JavaScript. Built my first personal website and discovered my passion for creating interactive experiences.",
-    icon: "calendar",
-    color: "from-blue-500 to-cyan-500",
-  },
-  {
-    date: "2019",
-    title: "First Professional Project",
-    description:
-      "Completed my first professional project, a responsive website for a local business. This experience taught me about client communication, project management, and delivering on deadlines.",
-    icon: "lightbulb",
-    color: "from-purple-500 to-pink-500",
-  },
-  {
-    date: "2020",
-    title: "Exploring React & Next.js",
-    description:
-      "Discovered the power of React and Next.js, which revolutionized my approach to frontend development. Started building component-based applications and embracing the JAMstack architecture.",
-    icon: "sparkles",
-    color: "from-green-500 to-teal-500",
-  },
-  {
-    date: "2021",
-    title: "Fullstack Development",
-    description:
-      "Expanded my skills to include backend technologies, becoming a fullstack developer. Learned Node.js, Express, and various database systems. Built several full-stack applications with authentication and data persistence.",
-    icon: "calendar",
-    color: "from-orange-500 to-red-500",
-  },
-  {
-    date: "2022",
-    title: "AI Integration",
-    description:
-      "Began integrating AI technologies into my projects, exploring new possibilities. Experimented with OpenAI's GPT models, image generation, and natural language processing to enhance user experiences.",
-    icon: "lightbulb",
-    color: "from-blue-500 to-cyan-500",
-  },
-  {
-    date: "2023",
-    title: "Creating the Standbot Method",
-    description:
-      "Developed the Standbot Method, a framework for AI-assisted development. After months of experimentation and refinement, formalized the approach to help developers leverage AI tools effectively while maintaining code quality.",
-    icon: "sparkles",
-    color: "from-purple-500 to-pink-500",
-  },
-  {
-    date: "2024",
-    title: "Open Source Contributions",
-    description:
-      "Started contributing to open source projects and sharing my knowledge with the community. Published articles about the Standbot Method and created educational content to help others learn about AI-assisted development.",
-    icon: "calendar",
-    color: "from-green-500 to-teal-500",
-  },
-  {
-    date: "2025",
-    title: "Future Explorations",
-    description:
-      "Planning to explore new frontiers in web development and AI integration. Interested in WebAssembly, edge computing, and creating more immersive experiences with 3D and AR technologies.",
-    icon: "lightbulb",
-    color: "from-orange-500 to-red-500",
-  },
-]
-
+// Get icon component based on icon name
 const getIcon = (iconName: string) => {
   switch (iconName) {
     case "calendar":
-      return <Calendar className="h-6 w-6" />
+      return <Calendar className="h-6 w-6" />;
     case "lightbulb":
-      return <Lightbulb className="h-6 w-6" />
+      return <Lightbulb className="h-6 w-6" />;
     case "sparkles":
-      return <Sparkles className="h-6 w-6" />
+      return <Sparkles className="h-6 w-6" />;
     default:
-      return <Calendar className="h-6 w-6" />
+      return <Calendar className="h-6 w-6" />;
   }
-}
+};
 
 export default function SpaceDiary() {
   return (
@@ -138,10 +63,10 @@ export default function SpaceDiary() {
         </AnimatePresence>
       </div>
     </div>
-  )
+  );
 }
 
-function VerticalTimelineEntry({ entry, index, isEven }: { entry: TimelineEntry; index: number; isEven: boolean }) {
+function VerticalTimelineEntry({ entry, index, isEven }: { entry: any; index: number; isEven: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -189,5 +114,5 @@ function VerticalTimelineEntry({ entry, index, isEven }: { entry: TimelineEntry;
       {/* Empty space for the other side */}
       <div className="md:w-1/2 hidden md:block"></div>
     </motion.div>
-  )
+  );
 }
