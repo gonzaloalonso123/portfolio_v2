@@ -10,7 +10,6 @@ export default function LoadingScreen() {
   const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
 
   useEffect(() => {
-    // Set mounted state and get actual window dimensions
     setIsMounted(true);
     setDimensions({
       width: window.innerWidth,
@@ -28,7 +27,6 @@ export default function LoadingScreen() {
     let interval: NodeJS.Timeout;
     let textInterval: NodeJS.Timeout;
 
-    // Progress bar animation
     interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -39,7 +37,6 @@ export default function LoadingScreen() {
       });
     }, 30);
 
-    // Text changing animation
     let textIndex = 0;
     textInterval = setInterval(() => {
       textIndex = (textIndex + 1) % texts.length;
@@ -52,10 +49,9 @@ export default function LoadingScreen() {
     };
   }, []);
 
-  // Generate stars with random positions
   const stars = Array.from({ length: 100 }).map((_, i) => ({
     id: i,
-    x: Math.random() * 100, // Use percentage instead of absolute pixels
+    x: Math.random() * 100,
     y: Math.random() * 100,
     scale: Math.random() * 0.5 + 0.5,
     opacity: Math.random() * 0.5,
@@ -101,7 +97,7 @@ export default function LoadingScreen() {
         transition={{ duration: 0.5 }}
         className="relative z-10 mb-12"
       >
-        <div className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+        <div className="text-6xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
           Gonzalo Alonso
         </div>
       </motion.div>

@@ -44,7 +44,7 @@ export default function SpaceDiary() {
             </div>
 
             {/* Mobile Vertical Line */}
-            <div className="absolute left-8 h-full w-1 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full md:hidden">
+            <div className="absolute left-2 h-full w-1 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full md:hidden">
               <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-blue-500"></div>
               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-3 h-3 rounded-full bg-cyan-500"></div>
             </div>
@@ -74,13 +74,10 @@ function VerticalTimelineEntry({ entry, index, isEven }: { entry: any; index: nu
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className={`relative flex items-center ${isEven ? "md:flex-row-reverse" : "md:flex-row"} flex-row`}
     >
-      {/* Timeline dot */}
-      <div className="absolute md:left-1/2 left-8 transform md:-translate-x-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 z-10 flex items-center justify-center">
+      <div className="absolute md:left-1/2 transform md:-translate-x-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 z-10 flex items-center justify-center">
         <div className="w-3 h-3 rounded-full bg-white animate-pulse"></div>
       </div>
-
-      {/* Content */}
-      <div className={`md:w-1/2 w-full ${isEven ? "md:pr-12 pl-16 md:pl-0" : "md:pl-12 pl-16 md:pr-0"}`}>
+      <div className={`md:w-1/2 w-full ${isEven ? "md:pr-12 pl-4 md:pl-0" : "md:pl-12 pl-4 md:pr-0"}`}>
         <div className="relative">
           <div
             className="absolute inset-0 bg-gradient-to-r opacity-20 rounded-2xl blur-sm"
@@ -90,7 +87,7 @@ function VerticalTimelineEntry({ entry, index, isEven }: { entry: any; index: nu
           ></div>
           <div className={`bg-gradient-to-r ${entry.color} p-0.5 rounded-2xl shadow-lg`}>
             <div className="bg-black/80 backdrop-blur-sm rounded-2xl p-6 h-full">
-              <div className="flex items-center mb-4">
+              <div className="flex items-center mb-4 flex-col md:flex-row">
                 <div
                   className={`w-12 h-12 rounded-full bg-gradient-to-r ${entry.color} flex items-center justify-center mr-4`}
                 >
@@ -102,16 +99,12 @@ function VerticalTimelineEntry({ entry, index, isEven }: { entry: any; index: nu
                 </div>
               </div>
               <p className="text-gray-300">{entry.description}</p>
-
-              {/* Decorative elements */}
               <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-blue-500/50"></div>
               <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-blue-500/50"></div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Empty space for the other side */}
       <div className="md:w-1/2 hidden md:block"></div>
     </motion.div>
   );

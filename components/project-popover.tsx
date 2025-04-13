@@ -4,9 +4,6 @@ import { motion, AnimatePresence } from "framer-motion"
 
 export default function ProjectPopover({ project, position, isVisible }) {
   if (!project || !isVisible) return null
-
-  // Convert 3D position to screen coordinates
-  // We'll use fixed positioning with these offsets
   const screenX = position.x
   const screenY = position.y
 
@@ -41,10 +38,7 @@ export default function ProjectPopover({ project, position, isVisible }) {
                 </span>
               )}
             </div>
-
             <div className="text-xs text-blue-300 italic">Click to view details</div>
-
-            {/* Decorative elements */}
             <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-blue-500"></div>
             <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-blue-500"></div>
             <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-blue-500"></div>

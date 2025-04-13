@@ -155,7 +155,7 @@ export default function Home() {
                                 key={techIndex}
                                 className="text-xs bg-blue-900/50 text-blue-300 px-2 py-0.5 rounded-full"
                               >
-                                {tech.name}
+                                aaa{tech.name}
                               </span>
                             ))}
                             {project.stack.length > 3 && (

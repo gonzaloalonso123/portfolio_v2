@@ -49,24 +49,22 @@ export default function ImageGallery({ images, alt }: ImageGalleryProps) {
 
   if (images.length <= 1) {
     return (
-      <div className="relative h-60 overflow-hidden">
+      <div className="relative md:h-96 h-60 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 animate-pulse"></div>
-        <img src={images[0] || "/placeholder.svg"} alt={alt} className="w-full h-full object-cover" />
+        <img src={images[0] || "/placeholder.svg"} alt={alt} className="w-full h-full object-cover aspect" />
       </div>
     );
   }
 
   return (
     <div
-      className="relative h-60 overflow-hidden"
+      className="relative h-60 md:h-80 overflow-hidden"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 animate-pulse"></div>
-
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}

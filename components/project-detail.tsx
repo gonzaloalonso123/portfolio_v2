@@ -25,7 +25,7 @@ export default function ProjectDetail({ project, onClose }) {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.2, type: "spring" }}
-        className="relative bg-black/80 border border-blue-500/30 rounded-2xl overflow-hidden max-w-4xl w-full max-h-[90vh] shadow-[0_0_30px_rgba(0,200,255,0.3)]"
+        className="relative bg-black/80 border border-blue-500/30 rounded-2xl overflow-hidden max-w-6xl w-full max-h-[90vh] shadow-[0_0_30px_rgba(0,200,255,0.3)]"
       >
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 opacity-80"></div>

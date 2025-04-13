@@ -1,31 +1,30 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Home, Rocket, Cpu, Send, BookOpen, FileText } from "lucide-react"
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Home, Rocket, Cpu, Send, BookOpen, FileText } from "lucide-react";
 
 interface CosmicNavigationProps {
-  currentSection: string
-  onNavigate: (section: string) => void
+  currentSection: string;
+  onNavigate: (section: string) => void;
 }
 
 export default function CosmicNavigation({ currentSection, onNavigate }: CosmicNavigationProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [scrollProgress, setScrollProgress] = useState(0)
-  const [isMounted, setIsMounted] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true)
+    setIsMounted(true);
 
     const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
-      const progress = window.scrollY / scrollHeight
-      setScrollProgress(progress)
-    }
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = window.scrollY / scrollHeight;
+      setScrollProgress(progress);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     { id: "home", label: "Command Center", icon: <Home className="w-5 h-5" /> },
@@ -34,13 +33,12 @@ export default function CosmicNavigation({ currentSection, onNavigate }: CosmicN
     { id: "skills", label: "Tech Arsenal", icon: <Cpu className="w-5 h-5" /> },
     { id: "blogs", label: "Cosmic Insights", icon: <FileText className="w-5 h-5" /> },
     { id: "contact", label: "Transmission", icon: <Send className="w-5 h-5" /> },
-  ]
+  ];
 
-  if (!isMounted) return null
+  if (!isMounted) return null;
 
   return (
     <>
-      {/* Desktop Navigation */}
       <div className="fixed top-1/2 left-8 transform -translate-y-1/2 z-40 hidden md:block">
         <div className="relative">
           <div className="absolute left-[22px] top-0 bottom-0 w-0.5 bg-gray-700 rounded-full">
@@ -88,8 +86,6 @@ export default function CosmicNavigation({ currentSection, onNavigate }: CosmicN
           </div>
         </div>
       </div>
-
-      {/* Mobile Navigation */}
       <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden">
         <motion.div
           initial={{ y: 100 }}
@@ -113,12 +109,11 @@ export default function CosmicNavigation({ currentSection, onNavigate }: CosmicN
                 >
                   {item.icon}
                 </div>
-                <span className="text-xs font-medium truncate">{item.label}</span>
               </button>
             ))}
           </div>
         </motion.div>
       </div>
     </>
-  )
+  );
 }

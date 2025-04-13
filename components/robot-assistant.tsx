@@ -91,7 +91,7 @@ export default function RobotAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ type: "spring", damping: 20 }}
-            className="fixed bottom-4 right-4 z-50 w-80 md:w-96 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(0,200,255,0.3)]"
+            className="fixed top-4 md:bottom-4 md:top-auto right-4 z-50 w-80 md:w-96 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(0,200,255,0.3)]"
           >
             <div className="bg-gradient-to-r from-blue-600 to-cyan-500 p-4 flex justify-between items-center">
               <div className="flex items-center">
@@ -176,7 +176,7 @@ export default function RobotAssistant() {
             exit={{ opacity: 0, scale: 0.8 }}
             whileHover={{ scale: 1.1 }}
             onClick={handleMaximize}
-            className="fixed bottom-4 right-4 z-50 w-14 h-14 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 flex items-center justify-center shadow-[0_0_20px_rgba(0,200,255,0.3)]"
+            className="fixed top-4 md:bottom-4 md:top-auto right-4 z-50 w-14 h-14 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 flex items-center justify-center shadow-[0_0_20px_rgba(0,200,255,0.3)]"
           >
             <img src="/robot-assistant.png" alt="NOVA Assistant" className="w-10 h-10 rounded-full object-cover" />
           </motion.button>
