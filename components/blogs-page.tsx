@@ -48,7 +48,7 @@ export default function BlogsPage() {
 
 function BlogList({ posts, onSelectPost }: { posts: BlogPost[]; onSelectPost: (post: BlogPost) => void }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-20">
       {posts.map((post, index) => (
         <motion.div
           key={post.id}
@@ -127,7 +127,6 @@ function BlogPostDetail({ post }: { post: BlogPost }) {
     return (
       <div key={key} className="space-y-6">
         {paragraphs.map((paragraph, idx) => {
-          // Handle headings
           if (paragraph.trim().startsWith("## ")) {
             return (
               <h2 key={idx} className="text-2xl font-bold text-blue-400 mt-10 mb-4">
@@ -147,13 +146,13 @@ function BlogPostDetail({ post }: { post: BlogPost }) {
           }
           if (paragraph.includes("\n- ")) {
             const listTitle = paragraph.split("\n")[0];
-            const items = paragraph.split("\n- ").slice(1);
+            const items = paragraph.split("\n- ").map(i => i.replace("- ", ""));
 
             return (
               <div key={idx} className="my-6">
-                {listTitle && listTitle !== "-" && (
+                {/* {listTitle && listTitle !== "-" && (
                   <p className="text-lg mb-2" dangerouslySetInnerHTML={{ __html: listTitle }} />
-                )}
+                )} */}
                 <ul className="list-disc pl-6 space-y-2">
                   {items.map((item, itemIdx) => (
                     <li

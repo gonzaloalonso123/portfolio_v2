@@ -145,14 +145,14 @@ Then wire up typed clients for server and browser contexts using Supabase’s SS
 
 ### 7. Generate a Service + React Query Layer with AI
 
-Prompt your AI tool (ideally v0 by Vercel) with:
+Prompt your AI tool (ideally v0 by Vercel, or other tool that enables the creation of multiple files with one prompt) with:
 
 \`\`\`
 This is my database definition:
 /utils/database.types.ts
 
 Please generate:
-- A service layer with basic CRUD operations
+- A service layer with basic CRUD operations, as well as other useful functions that might be needed
 - A set of React Query hooks for each table
 - A manifest of generated functions for future reference
 \`\`\`
@@ -177,12 +177,13 @@ export const auditService = {
 
 \`\`\`ts
 // hooks/queries/useAuditLog.ts
-export const useAuditLog = (logId) => {
+export const useAuditLog = (logId, ...options) => {
   const supabase = useSupabaseBrowser();
   return useQuery({
     queryKey: ["audit", logId],
     queryFn: () => auditService.getById(supabase, logId),
     enabled: !!logId,
+    ...options,
   });
 };
 \`\`\`
@@ -200,7 +201,7 @@ Create a landing page for my project using:
 - Style: Clean, modern, trustworthy
 \`\`\`
 
-Iterate until the design feels right.
+Iterate until the design feels right. Try to get as close as possible to your vision by play with the fonts, colors, structure, and content of your page.
 
 ---
 
@@ -225,6 +226,7 @@ Build my application. Here's a manifest of my API/data access layer: [insert man
 \`\`\`
 
 Let v0 generate the UI pages and components. Again, don’t aim for perfection—aim for a strong starting point.
+Make a few iterations of this process. The aim here is to get a solid starting point, something that you can work with as a base.
 
 ---
 
@@ -232,23 +234,47 @@ Let v0 generate the UI pages and components. Again, don’t aim for perfection�
 
 Download the generated code. Then:
 
-1. Copy 'tailwind.config.js' and global styles.
-2. Start by pasting the layout file into your codebase.
-3. Refactor layout into smaller components.
-4. Create a refactored vs. unrefactored version to guide AI on how to split future files.
+Copy 'tailwind.config.js' and globals.css.\n
 
-Add a comment block like this:
+
+### 12. Refactor the first component
+
+
+We can start with the layout, and build from the bigger to the smaller components.\n
+The first thing we want to do is to create a refactoring plan that we can use for the rest of our components.
+For this process, we need to be mindful and start by analyzing our application, finding components that can be potentially reused.
+We want to start being aware of what our project consists of. This is crucial for us to be able to continue mantaining it. If we rely solely on AI to do everything, we won't be able to understand our project, and we will be lost in the future, unable to scale it.
+
+Our refactoring process will look like this:\n
+
+1. We will create a old-layout.tsx file, and copy the layout code there.\n
+2. In layout.tsx, we will refactor the code using our own style and structure, implementing our definition of quality code. For example we can do so by splitting the code into smaller subcomponents. If we would put some of those components in a different file, we can instead create a comment block on top of the component, specifying what its new location would be, for example // move to @/components/Sidebar.tsx.\n
+3. Generate a manifest of the component in the top of the file, which we can use later to use it as a black box component for AI.\n
+Add a comment block like this:\n
 
 \`\`\`ts
 // MANIFEST:
 // Exported name: Layout (props) - Renders a responsive UI with sidebar navigation and header.
 \`\`\`
 
-Use this structure to slowly incorporate AI-generated code into your real application, component by component, with intention and care.
+4. Now, one by one, we will start moving the components from the fully AI generated version to our own version. We can use AI to help us, providing old-layout.tsx and layout.tsx as a reference of our refactoring strategy.\n
+
+\`\`\`ts
+Here is an example of my refactoring strategy:
+// old-layout.tsx
+  [OLD-LAYOUT CODE]
+// layout.tsx
+  [NEW-LAYOUT CODE]
+I want to refactor this new component:
+  [NEW-COMPONENT CODE]
+Please refactor it using the same strategy.
+\`\`\`
+
+Use this process to create a quality first codebase, using the AI generated code as a base.
 
 ---
 
-### 12. Finalize and Refine
+### 13. Finalize and Refine
 
 Once the scaffolding is in place, it's your turn. You now have:
 

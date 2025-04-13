@@ -4,10 +4,10 @@ export function SkillsGalaxy({ languages, frontend, backend, tools }) {
   return (
     <div className="max-w-6xl mx-auto">
       <h2 className="text-4xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
-        Technology Constellation
+        My Skills
       </h2>
 
-      <div className="flex flex-col xl:flex-row gap-3 w-full">
+      <div className="flex flex-col xl:flex-row gap-3 w-full pb-20">
         <div className="flex flex-col gap-3 w-full">
           <SkillCluster title="Programming Languages" skills={languages} color="from-purple-500 to-pink-500" />
           <SkillCluster title="Backend Technologies" skills={backend} color="from-green-500 to-teal-500" />
